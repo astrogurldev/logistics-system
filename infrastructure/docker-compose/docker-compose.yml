@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: unida_postgres_db
+    environment:
+      POSTGRES_USER: gontor_admin
+      POSTGRES_PASSWORD: supersecretpassword
+      POSTGRES_DB: unida_logistics
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Menyambungkan file init.sql di luar agar otomatis dieksekusi saat database menyala
+      - ../init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - logistics-network
+
+networks:
+  logistics-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local

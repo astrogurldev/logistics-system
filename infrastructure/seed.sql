@@ -1,0 +1,6 @@
+-- Masukkan data mahasiswa simulasi sesuai contoh spreadsheet
+INSERT INTO students (nim, full_name, telegram_chat_id) VALUES
+('220101', 'ALMAS BUTSAINATUN TBI 2', '123456789'),
+('220102', 'MEUTIA MIRAH A', '987654321'),
+('220103', 'ALVINA LYDIA J IQT 7', '555444333'),
+('220104', 'IZATUL AURA A', NULL); -- Contoh jika belum daftar Telegram
