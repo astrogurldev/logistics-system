@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   postgres-db:
     image: postgres:15-alpine
@@ -12,15 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      # Menyambungkan file init.sql di luar agar otomatis dieksekusi saat database menyala
       - ../init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - logistics-network
-
 networks:
   logistics-network:
     driver: bridge
-
 volumes:
   pgdata:
     driver: local
