@@ -9,21 +9,17 @@ app = FastAPI(
     description="Backend Service untuk Klasifikasi Paket Otomatis menggunakan Hugging Face",
     version="1.0.0"
 )
-
-# 1. Inisialisasi Model NLP dari Hugging Face
 print("Memuat Model AI Hugging Face (Zero-Shot Classification)...")
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 print("Model AI Berhasil Dimuat!")
 
-# 2. Definisi Kategori Paket sesuai Standar Gudang UNIDA Gontor
 CATEGORIES = [
-    "Buku, Dokumen, Paket Tipis, Jam",       # Kategori A
-    "Baju, Hijab, Tas, Dompet, Sandal",      # Kategori B
-    "Barang Kecil, Skincare, Obat",          # Kategori C
-    "Kardus Sedang (Sepatu dkk)",            # Kategori D
-    "Kardus Besar, Meja Belajar"             # Kategori E
+    "Buku, Dokumen, Paket Tipis, Jam",       
+    "Baju, Hijab, Tas, Dompet, Sandal",     
+    "Barang Kecil, Skincare, Obat",          
+    "Kardus Sedang (Sepatu dkk)",           
+    "Kardus Besar, Meja Belajar"            
 ]
-
 CATEGORY_MAP = {
     "Buku, Dokumen, Paket Tipis, Jam": "A",
     "Baju, Hijab, Tas, Dompet, Sandal": "B",
@@ -31,21 +27,17 @@ CATEGORY_MAP = {
     "Kardus Sedang (Sepatu dkk)": "D",
     "Kardus Besar, Meja Belajar": "E"
 }
-
 @app.get("/")
 def check_status():
     return {"status": "online", "system": "UNIDA Smart Logistics AI Engine"}
-
 @app.post("/api/v1/classify-package")
 async def classify_package(text_input: str):
     if not text_input:
         raise HTTPException(status_code=400, detail="Teks input tidak boleh kosong!")
-    
     try:
         ai_result = classifier(text_input, candidate_labels=CATEGORIES)
         top_label = ai_result['labels'][0]
-        confidence_score = ai_result['scores'][0]
-        
+        confidence_score = ai_result['scores'][0] 
         return {
             "status": "success",
             "input_text": text_input,
